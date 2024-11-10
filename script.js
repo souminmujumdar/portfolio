@@ -1,6 +1,8 @@
+// Smooth scrolling for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
+
         document.querySelector(this.getAttribute('href')).scrollIntoView({
             behavior: 'smooth',
             block: 'start'
@@ -8,57 +10,21 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// 2. Modal Popup for Project Details
-const projectCards = document.querySelectorAll('.project-card');
-projectCards.forEach(card => {
-    card.addEventListener('click', () => {
-        const projectTitle = card.querySelector('h3').textContent;
-        const projectDesc = card.querySelector('p').textContent;
-        showModal(projectTitle, projectDesc);
-    });
-});
-
-function showModal(title, desc) {
-    const modal = document.createElement('div');
-    modal.classList.add('modal');
-    modal.innerHTML = `
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h2>${title}</h2>
-            <p>${desc}</p>
-        </div>
-    `;
-    document.body.appendChild(modal);
-    document.querySelector('.close-btn').addEventListener('click', () => {
-        modal.remove();
-    });
-}
-
-// 3. Scroll-to-Top Button
-const scrollTopBtn = document.createElement('button');
-scrollTopBtn.textContent = "↑ Scroll to Top";
-scrollTopBtn.classList.add('scroll-top-btn');
-document.body.appendChild(scrollTopBtn);
-
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 500) {
-        scrollTopBtn.style.display = 'block';
+// Example for adding a dynamic greeting based on the time of day
+window.onload = function() {
+    const greeting = document.createElement('h2');
+    const currentHour = new Date().getHours();
+    
+    let message = "Hello!";
+    
+    if (currentHour >= 6 && currentHour < 12) {
+        message = "Good Morning!";
+    } else if (currentHour >= 12 && currentHour < 18) {
+        message = "Good Afternoon!";
     } else {
-        scrollTopBtn.style.display = 'none';
+        message = "Good Evening!";
     }
-});
-
-scrollTopBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-});
-
-// 4. Dark Mode Toggle
-const darkModeBtn = document.createElement('button');
-darkModeBtn.textContent = "🌙 Dark Mode";
-darkModeBtn.classList.add('dark-mode-btn');
-document.body.appendChild(darkModeBtn);
-
-darkModeBtn.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    darkModeBtn.textContent = document.body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
-});
+    
+    greeting.textContent = message;
+    document.querySelector('.header .container').appendChild(greeting);
+};
